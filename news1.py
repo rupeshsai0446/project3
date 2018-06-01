@@ -48,38 +48,38 @@ class Project:
         self.cursor.execute(command)
         return self.cursor.fetchall()
 
-    def solve(self, task, command,x='views'):
+    def solve(self, task, command, x='views'):
         command = command.replace('\n', ' ')
         data = self.execute_command(command)
         print task
         for a in range(len(data)):
-            print  '(',a + 1,')', data[a][0], ':', data[a][1], x
+            print'(', a + 1, ')', data[a][0], ':', data[a][1], x
         # blank line
         print ''
 
     def exit(self):
-	    
-    	self.database.close()
+        self.database.close()
+
+
 def required_data(psql_query):
-       ''' Database is accessed and required data from database is returned'''
-       conn = psycopg2.connect(dbname="news")
-       cursor = conn.cursor()
-       cursor.execute(psql_query)
-       data = cursor.fetchall()
-       conn.close()
-       return data
+    ''' Database is accessed and required data from database is returned'''
+    conn = psycopg2.connect(dbname="news")
+    cursor = conn.cursor()
+    cursor.execute(psql_query)
+    data = cursor.fetchall()
+    conn.close()
+    return data
+
 
 def day_more_errors():
-	day_more_errors = required_data(command_3)
-	print("On which days did more than 1% of requests lead to errors?")
-	for name, num in day_more_errors:
-	    print("""{0:%B %d,%Y} ->{1:.2f} errors""".format(name, num))
-   
+    day_more_errors = required_data(command_3)
+    print("On which days did more than 1% of requests lead to errors?")
+    for name, num in day_more_errors:
+        print("""{0:%B %d,%Y} ->{1:.2f} errors""".format(name, num))
 
 if __name__ == '__main__':
     rupesh = Project()
     rupesh.solve(task_1, command_1)
     rupesh.solve(task_2, command_2)
-    day_more_errors()  
- 
+    day_more_errors()
     rupesh.exit()
